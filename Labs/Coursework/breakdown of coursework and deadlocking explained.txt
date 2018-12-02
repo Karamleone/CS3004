@@ -1,0 +1,27 @@
+CS3004 Coureswork Notes
+
+1) intro
+
+2) Requirements;
+- 3 users 
+- 3 balances as server-side variables
+- add and subtract balances 
+- transfer money (subtract from A, add value to B) 
+- base count of 1000 units (balance) 
+- locking implemented - user B cannot act on the balance of A while A is undergoing a transaction (adding, subtracting, transfering) 
+
+3) Design - architecture and protocol sequence
+- topology/system diagram of 3 clients, 1 server and server multi-threading to facilitate this 
+- protocol sequence - show how locking is implemented and how it is established and then disconnected once the transaction is complete 
+- protocol table 
+
+4) implementation; 
+- code snippets e.g. this is locking, this is adding, subtracting, transfer etc
+
+5) testing; 
+- screenshot and log files demonstrating application 
+- deadlocking - theory and/or practical solution to this - timeout and abandonment of transaction, all clients invloved in a transaction will be reverted to their last "non deadlocked" state
+
+6) conclusions; 
+- describe each class roughly 
+
