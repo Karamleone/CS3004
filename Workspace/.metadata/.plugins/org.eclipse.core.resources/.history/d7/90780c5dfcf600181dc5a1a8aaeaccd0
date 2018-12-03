@@ -1,0 +1,48 @@
+import java.net.*;
+import java.io.*;
+
+public class WB_server_Threading extends Thread {
+
+	private Socket WBSocket = null;
+	  private WB_shared_state mySharedWBStateObject;
+	  private String myWBServerThreadName;
+	  private double mySharedVariable;
+	   
+	  //Setup the thread
+	  	public WB_server_Threading(Socket WBSocket, String WBServerThreadName, WB_shared_state SharedObject) {
+		
+//		  super(WBServerThreadName);
+		  this.WBSocket = WBSocket;
+		  mySharedWBStateObject = SharedObject;
+		  myWBServerThreadName = WBServerThreadName;
+		}
+
+	  public void run() {
+	    try {
+	      System.out.println(myWBServerThreadName + "initialising.");
+	      PrintWriter out = new PrintWriter(WBSocket.getOutputStream(), true);
+	      BufferedReader in = new BufferedReader(new InputStreamReader(WBSocket.getInputStream()));
+	      String inputLine, outputLine;
+
+	      while ((inputLine = in.readLine()) != null) {
+	    	  // Get a lock first
+	    	  try { 
+	    		  mySharedWBStateObject.acquireLock();  
+	    		  outputLine = mySharedWBStateObject.processInput(myWBServerThreadName, inputLine);
+	    		  out.println(outputLine);
+	    		  mySharedWBStateObject.releaseLock();  
+	    	  } 
+	    	  catch(InterruptedException e) {
+	    		  System.err.println("Failed to get lock when reading:"+e);
+	    	  }
+	      }
+
+	       out.close();
+	       in.close();
+	       WBSocket.close();
+
+	    } catch (IOException e) {
+	      e.printStackTrace();
+	    }
+	  }
+}

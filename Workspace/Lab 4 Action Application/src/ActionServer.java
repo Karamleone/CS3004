@@ -11,7 +11,7 @@ public class ActionServer {
 	ServerSocket ActionServerSocket = null;
     boolean listening = true;
     String ActionServerName = "ActionServer";
-    int ActionServerNumber = 4653;
+    int ActionServerNumber = 4663;
     
     double SharedVariable = 100;
 
